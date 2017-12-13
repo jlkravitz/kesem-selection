@@ -10,6 +10,29 @@ NO_MATCH = 0
 PARTIAL_MATCH = 1
 FULL_MATCH = 3
 
+WELCOME_MESSAGE = """Welcome! This script is here to help you cross reference applications with letters of
+reference. It detects...
+
+    • Applicants who have more than one letter of reference. If this occurs,
+      the applicant's name will show up twice under "Referee".
+
+    • Applicants who have no matching letter of reference. If this occurs,
+      the applicant's Reference and Referee columns will be missing.
+
+    • Letters of reference with no matching applicant. This is shown as a row in the  
+      table below whose Applicant and Email columns are missing. 
+
+    • Applicants who have partial matches to one or more letters of reference.
+      This means the applicant's first or last name (but not both) matches those
+      on the listed letters of reference. Usually, this means the reference
+      spelled the applicant's name wrong, but sometimes can mean that the applicant
+      doesn't have a letter of reference. You will have to decide this for yourself.
+      If partial matches occur, the applicant's Referee column will partially match
+      the applicant's name.
+
+Questions? Email Finchley at kravitzj@stanford.edu.
+"""
+
 def preprocess_name(name):
     return ' '.join(name.strip().lower().split())
 
@@ -121,9 +144,7 @@ def report_uncertain_matches(app_lor_matches, lor_app_matches):
         print_app_lor_match(match, 'green')
 
 def main():
-    with open('cross_reference_msg.txt') as f:
-        welcome_msg = f.read()
-    print(welcome_msg)
+    print(WELCOME_MESSAGE)
     print('Press enter to continue.')
     input()
 
