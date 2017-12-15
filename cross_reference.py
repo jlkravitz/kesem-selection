@@ -29,16 +29,13 @@ reference. It detects...
 Questions? Email Finchley at kravitzj@stanford.edu.
 """
 
-def make_name(obj, key_prefix=''):
-    return '{} {}'.format(obj['{}first_name'.format(key_prefix)], obj['{}last_name'.format(key_prefix)])
-
 def find_matching_references(app, references):
     """Find unmatched reference for given app, returning reference match and the type (if partial, full, or none)."""
     full_matches = []
     matches = []
     for reference in references:
         if reference['matched']: continue
-        if make_name(app) == make_name(reference): #app['first_name'] == reference['first_name'] and app['last_name'] == reference['last_name']:
+        if app['full_name'] == reference['full_name']:
             full_matches.append(reference)
         elif app['first_name'] == reference['first_name'] or app['last_name'] == reference['last_name']:
             matches.append(reference)
@@ -75,25 +72,27 @@ def report_uncertain_matches(app_reference_matches, reference_app_matches):
     List holds tuples of (app, reference).
     """
 
-    coreferences = {
+    colors = {
         'red': '\033[1;31m',
         'blue': '\033[1;34m',
         'cyan': '\033[1;36m',
         'green': '\033[0;32m'
     }
-    def print_app_reference_match(match, coreference):
+
+    def print_app_reference_match(match, color):
         print('{}{: <30}{: <30}{: <40}{: <40}\033[0;0m'.format(
-            coreferences[coreference],
-            make_name(match[0]),
+            colors[color],
+            match[0]['full_name'],
             match[0]['email'],
-            ', '.join(make_name(reference, key_prefix='reference_') for reference in match[1]),
-            ', '.join(make_name(reference) for reference in match[1])))
-    def print_reference_app_match(match, coreference):
+            ', '.join(reference['reference_full_name'] for reference in match[1]),
+            ', '.join(reference['full_name'] for reference in match[1])))
+
+    def print_reference_app_match(match, color):
         print('{}{: <30}{: <30}{: <40}{: <40}'.format(
-            coreferences[coreference],
+            colors[color],
             '', '',
-            make_name(match[0], key_prefix='reference_'),
-            make_name(match[0])))
+            match[0]['reference_full_name'],
+            match[0]['full_name']))
 
     print('{: <30}{: <30}{: <40}{: <40}'.format('Applicant', 'Stanford Email', 'Reference', 'Referee'))
     print('{: <30}{: <30}{: <40}{: <40}'.format('-' * 25, '-' * 25, '-' * 25, '-' * 25))
@@ -112,14 +111,26 @@ def main():
     print('Press enter to continue.')
     input()
 
-    apps = wufoo_entry_loader.load_apps(fields=['first_name', 'last_name', 'email'])
-    references = wufoo_entry_loader.load_references(fields=['applicant_first_name', 'applicant_last_name', 'reference_first_name', 'reference_last_name'])
-    for app in apps:
-        app['matched'] = False
-    for reference in references:
-        reference['matched'] = False
-        reference['first_name'] = reference['applicant_first_name']
-        reference['last_name'] = reference['applicant_last_name']
+    apps = wufoo_entry_loader.load_apps(fields=[
+        'first_name', 'last_name', 'full_name', 'email'],
+        metadata={
+            'matched': False
+        })
+
+    references = wufoo_entry_loader.load_references(
+        fields=[
+            'applicant_first_name', 'applicant_last_name', 'applicant_full_name',
+            'reference_first_name', 'reference_last_name', 'reference_full_name'
+        ],
+        rename={
+            'applicant_first_name': 'first_name',
+            'applicant_last_name': 'last_name',
+            'applicant_full_name': 'full_name'
+        },
+        metadata={
+            'matched': False
+        }
+    )
 
     # These full matches are only those that have *more than one*
     # fully matching letter of reference.

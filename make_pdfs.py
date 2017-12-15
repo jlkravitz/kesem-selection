@@ -45,13 +45,13 @@ def add_question_to_pdf(pdf, question, answer):
         add_paragraph(pdf, answer_line)
         add_spacing(pdf, 4)
 
-def make_app_pdf(app, title, directory):
+def make_pdf(entry, title, directory):
     pdf = fpdf.FPDF(format='letter')
     pdf.add_font('dejavu', '', 'fonts/DejaVuSansCondensed.ttf', uni=True)
     pdf.add_font('dejavub', '', 'fonts/DejaVuSansCondensed-Bold.ttf', uni=True)
     pdf.add_page()
     add_title(pdf, title)
-    for (i, (question, answer)) in enumerate(app):
+    for (i, (question, answer)) in enumerate(entry):
         add_question_to_pdf(pdf, question, answer)
     pdf.output(os.path.join(directory, title + '.pdf'))
 
@@ -64,15 +64,17 @@ def load_applicant_ids():
         }
 
 def make_app_pdfs(applicant_ids):
+    os.mkdir('apps')
     apps = wufoo_entry_loader.load_apps(fields=['full_name', 'questions'])
     for i, app in enumerate(apps):
         if i != 0 and i % 10 == 0:
             print('Made {}/{} Application PDFs'.format(i, len(apps)))
-        make_app_pdf(app['questions'], 'Applicant #{}'.format(applicant_ids[app['full_name']]), 'apps')
+        make_pdf(app['questions'], 'Applicant #{}'.format(applicant_ids[app['full_name']]), 'apps')
 
 def make_reference_pdfs(applicant_ids):
+    os.mkdir('references')
     references = wufoo_entry_loader.load_references(['applicant_full_name', 'questions'])
-    for i, lor in enumerate(references):
+    for i, reference in enumerate(references):
         if i != 0 and i % 10 == 0:
             print('Made {}/{} Letter of Reference PDFs'.format(i, len(references)))
 
@@ -80,13 +82,13 @@ def make_reference_pdfs(applicant_ids):
         # when looping over apps. Here, there may not exist an application for
         # the reference of the given name.
         try:
-            title = 'Applicant #{}'.format(applicant_ids[lor['applicant_full_name']])
+            title = 'Applicant #{}'.format(applicant_ids[reference['applicant_full_name']])
         except KeyError:
             print(('Letter of reference for "{}" has no corresponding application. Make sure to fix all ' +\
-                  'issues listed by `cross_reference.py` before running this script.').format(lor['applicant_full_name']))
+                  'issues listed by `cross_reference.py` before running this script.').format(reference['applicant_full_name']))
             continue
 
-        make_app_pdf(lor['questions'], title, 'references')
+        make_pdf(reference['questions'], title, 'references')
 
 def main():
     applicant_ids = load_applicant_ids()

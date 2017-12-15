@@ -1,3 +1,13 @@
+"""Helper library for loading Wufoo form entries into python.
+
+Some general terms and abstractions used in this file...
+    • column: original column name in the CSV file full of Wufoo entries
+    • field: value derived from original columns meant for python objects
+             representing Wufoo entries
+    • entry: refers to both Wufoo entries (form submissions) and python
+             entries (pythonic representations of these submissions)
+ """
+
 import csv
 
 def normalize(name):
@@ -9,29 +19,50 @@ def make_name(first_name, last_name):
 def find_column_index(csv_header, column_name):
     return csv_header.index(column_name)  # Throw error if doesn't exist!
 
-def load_wufoo_entries(csv_file_name, get_id_fn, fields={}):
-    """Load apps CSV from exported Wufoo entries."""
+def load_wufoo_entries(csv_file_name, identifying_field,
+        field_map, fields, rename, metadata):
+    """Load apps CSV from exported Wufoo entries.
+
+    Parameters
+    ----------
+    csv_file_name: str
+        the name of the csv file containing Wufoo form entries
+    identifying field: str
+        the name of the column in the csv file which identifies a particular
+        Wufoo entry
+        this is usually a name or email
+    field_map: dict(str, fn)
+        maps fields to their corresponding builder functions, which build the
+        field from the original columns of the Wufoo entries
+    fields: list(str)
+        the fields requested – all fields in this list should be keys of `field_map`
+    rename: dict(str, str)
+        maps fields to new names
+    metadata: dict(str, <any>)
+        extra (constant) metadata to store in each python entry
+
+    """
     with open(csv_file_name) as f:
         entry_reader = csv.reader(f)
         header = next(entry_reader)  # header
 
         # We keep the most recent entry based on the identifier.
-        entries = {}
-        for row in entry_reader:
-            entry = build_entry(row, fields)
-            if row[-1] == '0':
-                continue
-            entries[get_id_fn(row)] = entry
+        return dict(
+            (field_map[identifying_field](row),
+                build_entry(row, field_map, fields, rename, metadata))
+            for row in entry_reader
+            if row[-1] == '1'  # Checks if Wufoo entry was actually submitted
+        ).values()
 
-        return entries.values()
-
-def build_entry(row, fields):
-    return {
-        field_name: build_field_fn(row)
-        for (field_name, build_field_fn) in fields.items()
+def build_entry(row, field_map, fields, rename, metadata):
+    entry = {
+        rename.get(field_name, field_name): field_map[field_name](row)
+        for field_name in fields
     }
+    entry.update(metadata)
+    return entry
 
-def load_apps(fields=['first_name', 'last_name', 'email']):
+def load_apps(fields, rename={}, metadata={}):
     APP_QUESTIONS = [
         ('Describe your relevant experience working with children.', 24),
         ('Describe your experience working at camp.', 25),
@@ -49,9 +80,9 @@ def load_apps(fields=['first_name', 'last_name', 'email']):
         'email': lambda row: normalize(row[9]),
         'questions': lambda row: [(q, row[index]) for (q, index) in APP_QUESTIONS]
     }
-    return load_wufoo_entries('apps.csv', fields_map['email'], fields=dict_subset(fields_map, fields))
+    return load_wufoo_entries('apps.csv', 'email', fields_map, fields, rename, metadata)
 
-def load_references(fields):
+def load_references(fields, rename={}, metadata={}):
     REFERENCE_QUESTIONS = [
         ('How do they know the applicant?', 7),
         ('How well does the applicant work with others in a team environment?', 8),
@@ -79,7 +110,5 @@ def load_references(fields):
         'applicant_full_name': lambda row: make_name(row[5], row[6]),
         'questions': lambda row: [(q, row[index]) for (q, index) in REFERENCE_QUESTIONS]
     }
-    return load_wufoo_entries('references.csv', fields_map['reference_full_name'], fields=dict_subset(fields_map, fields))
+    return load_wufoo_entries('references.csv', 'reference_full_name', fields_map, fields, rename, metadata)
 
-def dict_subset(mapping, keys):
-    return dict((k, mapping[k]) for k in keys)
