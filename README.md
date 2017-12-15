@@ -46,13 +46,13 @@ Run the following commands from your terminal in the `kesem-selection` directory
     matches listed in the output (e.g., Joshua Kravitz's reference might have written a reference
     for "Josh Kravitz" -- the script won't know these are the same, but it will guess that these
     are a match).
+    2. **NOTE:** *You should NOT continue past this step until all issues listed by `cross_reference.py`
+    are manually resolved (i.e., by removing extra letters of reference and fixing names such that
+    each applicant corresponds with exactly one letter of reference). Keep running `python3 cross_reference.py`
+    until nothing is listed!*
 2. `python3 assign_applicant_ids.py`
     1. This script assigns IDs to each application. This is for the purpose of anonymizing applications
     and for use in the final deliberation room (if your Rainbow decides to anonymize deliberations, too).
-    2. **NOTE:** *You should NOT run this script until all issues listed by `cross_reference.py` are manually
-    resolved (i.e., by removing extra letters of reference and fixing names).*
 3. `python3 make_pdfs.py`
     1. This script makes PDFs for both applications (which go in the directory `apps/`) and letters of
     reference (which go in the directory `references/`).
-    2. **NOTE:** *You should NOT run this script until all issues listed by `cross_reference.py` are manually
-    resolved (i.e., by removing extra letters of reference and fixing names).*

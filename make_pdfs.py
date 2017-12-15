@@ -82,7 +82,7 @@ def make_reference_pdfs(applicant_ids):
         # when looping over apps. Here, there may not exist an application for
         # the reference of the given name.
         try:
-            title = 'Applicant #{}'.format(applicant_ids[reference['applicant_full_name']])
+            title = 'Reference for Applicant #{}'.format(applicant_ids[reference['applicant_full_name']])
         except KeyError:
             print(('Letter of reference for "{}" has no corresponding application. Make sure to fix all ' +\
                   'issues listed by `cross_reference.py` before running this script.').format(reference['applicant_full_name']))
