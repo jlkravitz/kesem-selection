@@ -27,7 +27,7 @@ To get these scripts running, run the following commands in your terminal.
 1. Navigate to your "Documents" directory: `cd ~/Documents`
 2. Clone this github repository: `git clone git@github.com:jlkravitz/kesem-selection.git`
 3. Navigate to the new directory: `cd kesem-selection`
-4. Install Homebrew (this is safe and fast! I swear.): `ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+4. Install Homebrew (This is safe and fast! I swear!): `ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 5. Install python3: `brew install python3`
 6. Install fpdf, a python library for building pdfs: `pip3 install fpdf`
 
