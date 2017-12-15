@@ -48,7 +48,7 @@ Run the following commands from your terminal in the `kesem-selection` directory
     are a match).
     2. **NOTE:** *You should NOT continue past this step until all issues listed by `cross_reference.py`
     are manually resolved (i.e., by removing extra letters of reference and fixing names such that
-    each applicant corresponds with exactly one letter of reference). Keep running `python3 cross_reference.py`
+    each application corresponds with exactly one letter of reference). Keep running `python3 cross_reference.py`
     until nothing is listed!*
 2. `python3 assign_applicant_ids.py`
     1. This script assigns IDs to each application. This is for the purpose of anonymizing applications
