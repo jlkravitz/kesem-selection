@@ -1,0 +1,8 @@
+apps/
+references/
+fonts/
+__pycache__/
+apps.csv
+references.csv
+applicant_ids.csv
+.DS_Store
