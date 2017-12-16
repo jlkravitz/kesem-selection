@@ -54,6 +54,7 @@ def report_uncertain_matches(app_reference_matches, reference_app_matches):
         'blue': '\033[1;34m',
         'cyan': '\033[1;36m',
         'green': '\033[0;32m',
+        'bold': '\033[1m',
         'reset': '\033[0;0m'
     }
 
@@ -86,14 +87,14 @@ def report_uncertain_matches(app_reference_matches, reference_app_matches):
 
     print()
 
+    print(make_color('We can\'t find matching letters of reference for applicants below, but do have references for people\n' +\
+            'with partially matching names (first or last name matches).', 'bold'))
     for match in app_reference_matches[PARTIAL_MATCH]:
-        print(('We can\'t find a matching letter of reference for {} ({}).\n' +\
-                'We have references for applicants with these partially matching names (where first or last names match):\n{}').format(
+        print('{} ({}): {}'.format(
             make_color(match[0]['full_name'], 'green'),
             match[0]['email'],
-            make_color('\n'.join(reference['full_name'] for reference in match[1]), 'green'),
+            ', '.join('{} (written by {})'.format(make_color(reference['full_name'], 'green'), reference['reference_full_name']) for reference in match[1]), 'green'
         ))
-        print()
 
 def main():
     apps = wufoo_entry_loader.load_apps(fields=[
