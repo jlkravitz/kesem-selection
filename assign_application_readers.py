@@ -42,14 +42,11 @@ def main():
     root_dir = 'Application Reads'
     os.mkdir(root_dir)
     for (reader, applicants) in assignments.items():
-        reader_dir = os.path.join(root_dir, reader)
-        os.mkdir(reader_dir)
-        with open(os.path.join(reader_dir, 'Score Sheet.csv'), 'w') as f:
+        with open(os.path.join(root_dir, reader + ' Score Sheet.csv'), 'w') as f:
             writer = csv.writer(f)
             writer.writerow(['', 'Score (1-5)', 'Notes'])
             for applicant in applicants:
                 writer.writerow([applicant])
-        make_pdfs.make_app_packet(applicants, reader)
 
 if __name__ == '__main__':
     main()
