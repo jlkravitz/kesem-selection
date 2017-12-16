@@ -7,7 +7,7 @@ import wufoo_entry_loader
 READERS_PER_APPLICANT = 2
 
 def load_conflicts_of_interest():
-    with open('app_reading_conflicts_of_interest.csv') as f:
+    with open('conflicts_of_interest.csv') as f:
         conflicts_reader = csv.reader(f)
         reader_conflicts = dict((r, set()) for r in next(conflicts_reader)[1:])
         for row in conflicts_reader:

@@ -8,7 +8,7 @@ def load_applicants():
 def main():
     applicants = load_applicants()
     
-    with open('app_reading_conflicts_of_interest.csv', 'w') as f:
+    with open('conflicts_of_interest.csv', 'w') as f:
         writer = csv.writer(f)
 
         readers = []
