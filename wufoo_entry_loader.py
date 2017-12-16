@@ -19,7 +19,7 @@ def make_name(first_name, last_name):
 def find_column_index(csv_header, column_name):
     return csv_header.index(column_name)  # Throw error if doesn't exist!
 
-def load_wufoo_entries(csv_file_name, identifying_field,
+def load_wufoo_entries(csv_file_name, key,
         field_map, fields, rename, metadata):
     """Load apps CSV from exported Wufoo entries.
 
@@ -27,7 +27,7 @@ def load_wufoo_entries(csv_file_name, identifying_field,
     ----------
     csv_file_name: str
         the name of the csv file containing Wufoo form entries
-    identifying field: str
+    key: fn(row) --> str
         the name of the column in the csv file which identifies a particular
         Wufoo entry
         this is usually a name or email
@@ -48,8 +48,7 @@ def load_wufoo_entries(csv_file_name, identifying_field,
 
         # We keep the most recent entry based on the identifier.
         return list(dict(
-            (field_map[identifying_field](row),
-                build_entry(row, field_map, fields, rename, metadata))
+            (key(row), build_entry(row, field_map, fields, rename, metadata))
             for row in entry_reader
             if row[-1] == '1'  # Checks if Wufoo entry was actually submitted
         ).values())
@@ -71,7 +70,9 @@ def load_apps(fields, rename={}, metadata={}):
         ('What are three things you want us to know about you?', 28),
         ('What is something you would be excited to teach or facilitate at camp?', 29),
         ('Why do you want to volunteer your time for Camp Kesem?', 30),
-        ('In what ways would you contribute to the diversity of Kesem\'s community?', 31)
+        ('In what ways would you contribute to the diversity of Kesem\'s community?', 31),
+        ('Special Sauce', 32),
+        ('Special Sauce Upload', 34)
     ]
     fields_map = {
         'first_name': lambda row: normalize(row[1]),
@@ -80,7 +81,8 @@ def load_apps(fields, rename={}, metadata={}):
         'email': lambda row: normalize(row[9]),
         'questions': lambda row: [(q, row[index]) for (q, index) in APP_QUESTIONS]
     }
-    return load_wufoo_entries('apps.csv', 'email', fields_map, fields, rename, metadata)
+    key = fields_map['email']
+    return load_wufoo_entries('apps.csv', key, fields_map, fields, rename, metadata)
 
 def load_references(fields, rename={}, metadata={}):
     REFERENCE_QUESTIONS = [
@@ -110,5 +112,6 @@ def load_references(fields, rename={}, metadata={}):
         'applicant_full_name': lambda row: make_name(row[5], row[6]),
         'questions': lambda row: [(q, row[index]) for (q, index) in REFERENCE_QUESTIONS]
     }
-    return load_wufoo_entries('references.csv', 'reference_full_name', fields_map, fields, rename, metadata)
+    key = lambda row: (fields_map['reference_full_name'](row), fields_map['applicant_full_name'](row))
+    return load_wufoo_entries('references.csv', key, fields_map, fields, rename, metadata)
 
