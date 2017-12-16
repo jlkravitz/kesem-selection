@@ -47,11 +47,11 @@ def load_wufoo_entries(csv_file_name, key,
         header = next(entry_reader)  # header
 
         # We keep the most recent entry based on the identifier.
-        return list(dict(
-            (key(row), build_entry(row, field_map, fields, rename, metadata))
+        return [
+            build_entry(row, field_map, fields, rename, metadata)
             for row in entry_reader
-            if row[-1] == '1'  # Checks if Wufoo entry was actually submitted
-        ).values())
+            if row[-1] == '1'  # Checks if Wufoo entry was actually submitted]
+        ]
 
 def build_entry(row, field_map, fields, rename, metadata):
     entry = {
