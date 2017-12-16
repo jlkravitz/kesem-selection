@@ -6,29 +6,6 @@ NO_MATCH = 0
 PARTIAL_MATCH = 1
 FULL_MATCH = 3
 
-WELCOME_MESSAGE = """Welcome! This script is here to help you cross reference applications with letters of
-reference. It detects...
-
-    • Applicants who have more than one letter of reference. If this occurs,
-      the applicant's name will show up twice under "Referee".
-
-    • Applicants who have no matching letter of reference. If this occurs,
-      the applicant's Reference and Referee columns will be missing.
-
-    • Letters of reference with no matching applicant. This is shown as a row in the  
-      table below whose Applicant and Email columns are missing. 
-
-    • Applicants who have partial matches to one or more letters of reference.
-      This means the applicant's first or last name (but not both) matches those
-      on the listed letters of reference. Usually, this means the reference
-      spelled the applicant's name wrong, but sometimes can mean that the applicant
-      doesn't have a letter of reference. You will have to decide this for yourself.
-      If partial matches occur, the applicant's Referee column will partially match
-      the applicant's name.
-
-Questions? Email Finchley at kravitzj@stanford.edu.
-"""
-
 def find_matching_references(app, references):
     """Find unmatched reference for given app, returning reference match and the type (if partial, full, or none)."""
     full_matches = []
@@ -76,41 +53,49 @@ def report_uncertain_matches(app_reference_matches, reference_app_matches):
         'red': '\033[1;31m',
         'blue': '\033[1;34m',
         'cyan': '\033[1;36m',
-        'green': '\033[0;32m'
+        'green': '\033[0;32m',
+        'reset': '\033[0;0m'
     }
 
-    def print_app_reference_match(match, color):
-        print('{}{: <30}{: <30}{: <40}{: <40}\033[0;0m'.format(
-            colors[color],
-            match[0]['full_name'],
-            match[0]['email'],
-            ', '.join(reference['reference_full_name'] for reference in match[1]),
-            ', '.join(reference['full_name'] for reference in match[1])))
-
-    def print_reference_app_match(match, color):
-        print('{}{: <30}{: <30}{: <40}{: <40}'.format(
-            colors[color],
-            '', '',
-            match[0]['reference_full_name'],
-            match[0]['full_name']))
-
-    print('{: <30}{: <30}{: <40}{: <40}'.format('Applicant', 'Stanford Email', 'Reference', 'Referee'))
-    print('{: <30}{: <30}{: <40}{: <40}'.format('-' * 25, '-' * 25, '-' * 25, '-' * 25))
+    def make_color(val, color):
+        return colors[color] + val + colors['reset']
 
     for match in app_reference_matches[FULL_MATCH]:
-        print_app_reference_match(match, 'red')
+        print('Applicant {} ({}) has multiple letters of reference from {} and {}.'.format(
+            make_color(match[0]['full_name'], 'red'),
+            match[0]['email'],
+            make_color(', '.join(reference['reference_full_name'] for reference in match[1][1:]), 'red'),
+            make_color(match[1][0]['reference_full_name'], 'red')
+        ))
+
+    print()
+
     for match in app_reference_matches[NO_MATCH]:
-        print_app_reference_match(match, 'cyan')
+        print('Applicant {} ({}) has no letter of reference.'.format(
+            make_color(match[0]['full_name'], 'cyan'),
+            match[0]['email']
+        ))
+
+    print()
+    
     for match in reference_app_matches[NO_MATCH]:
-        print_reference_app_match(match, 'blue')
+        print('We have a letter of reference for {} (written by {}) but no matching application.'.format(
+            make_color(match[0]['full_name'], 'blue'),
+            match[0]['reference_full_name']
+        ))
+
+    print()
+
     for match in app_reference_matches[PARTIAL_MATCH]:
-        print_app_reference_match(match, 'green')
+        print(('We can\'t find a matching letter of reference for {} ({}).\n' +\
+                'We have references for applicants with these partially matching names (where first or last names match):\n{}').format(
+            make_color(match[0]['full_name'], 'green'),
+            match[0]['email'],
+            make_color('\n'.join(reference['full_name'] for reference in match[1]), 'green'),
+        ))
+        print()
 
 def main():
-    print(WELCOME_MESSAGE)
-    print('Press enter to continue.')
-    input()
-
     apps = wufoo_entry_loader.load_apps(fields=[
         'first_name', 'last_name', 'full_name', 'email'],
         metadata={
