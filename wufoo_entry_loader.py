@@ -16,9 +16,6 @@ def normalize(name):
 def make_name(first_name, last_name):
     return normalize(first_name) + ' ' + normalize(last_name)
 
-def find_column_index(csv_header, column_name):
-    return csv_header.index(column_name)  # Throw error if doesn't exist!
-
 def load_wufoo_entries(csv_file_name, key,
         field_map, fields, rename, metadata):
     """Load apps CSV from exported Wufoo entries.
@@ -79,6 +76,8 @@ def load_apps(fields, rename={}, metadata={}):
         'last_name': lambda row: normalize(row[2]),
         'full_name': lambda row: make_name(row[1], row[2]),
         'email': lambda row: normalize(row[9]),
+        'school_year': lambda row: row[7],
+        'gender': lambda row: normalize(row[5]),
         'questions': lambda row: [(q, row[index]) for (q, index) in APP_QUESTIONS]
     }
     key = fields_map['email']
