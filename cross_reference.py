@@ -35,6 +35,10 @@ def partial_match(app, reference):
             app['last_name'] == reference['applicant_last_name']
 
 def main():
+    print(make_color('This script should output no issues (besides missing references) ' +\
+            'before you continue running other scripts.', 'red'))
+    print()
+
     # submission_time allows us to differentiate entries
     apps = wufoo_entry_loader.load_apps(fields=[
         'first_name', 'last_name', 'full_name', 'email', 'submission_time'])
@@ -55,7 +59,7 @@ def main():
             len(matches)
         ))
 
-    print()
+    if len(duplicate_apps) > 0: print()
 
     ### DUPLICATE REFERENCES ###
 
@@ -71,7 +75,7 @@ def main():
             make_color(duplicates[-1]['reference_full_name'], 'red')
         ))
 
-    print()
+    if len(duplicate_references) > 0: print()
 
     # This removes all matched apps and references, so we don't have to deal with them below.
     have_references = join_tables(apps, references, lambda a, r: a['full_name'] == r['applicant_full_name'])
@@ -83,15 +87,19 @@ def main():
 
     ### REFERENCES WITHOUT APPS ###
 
+    found = False
     for reference in references:
         matching_apps = join_tables([reference], apps,
                 lambda r, a: partial_match(a, r))  # we don't want to include partial matches since those printed below
         if len(matching_apps) == 0:
+            found = True
             print('We have a letter of reference for {} (written by {}) but no matching application.'.format(
                 make_color(reference['applicant_full_name'], 'blue'),
                 reference['reference_full_name']))
 
-    print()
+    if found:
+        print()
+        found = False
 
     ### APPS WITHOUT REFERENCES ###
 
@@ -99,21 +107,26 @@ def main():
         matching_references = join_tables([app], references,
                 lambda a, r: partial_match(a, r))
         if len(matching_references) == 0:
+            found = True
             print('We have an application for {} ({}) but no letter of reference.'.format(
                 make_color(app['full_name'], 'cyan'),
                 app['email']
             ))
 
-    print()
+    if found:
+        print()
+        found = False
     
     ### PARTIAL REFERENCE MATCHES ###
 
-    print(make_color('We can\'t find matching letters of reference for applicants below, but do have references for people\n' +\
-        'with partially matching names (first or last name matches).', 'bold'))
     for app in apps:
         matches = join_tables([app], references,
                 lambda a, r: partial_match(a, r))
         if len(matches) > 0:
+            if not found:
+                print(make_color('We can\'t find matching letters of reference for applicants below, but do have references for people\n' +\
+                    'with partially matching names (first or last name matches).', 'bold'))
+                found = True
             print('{} ({}): {}'.format(
                 make_color(app['full_name'], 'green'),
                 app['email'],
