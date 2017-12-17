@@ -22,9 +22,9 @@ class AppReaderFolder(object):
 
     def make_app_packet(self):
 
-        def get_questions(name, entries):
+        def get_questions(name, name_field, entries):
             for entry in entries:
-                if entry['full_name'] == name:
+                if entry[name_field] == name:
                     return entry['questions']
             raise KeyError
 
@@ -32,17 +32,17 @@ class AppReaderFolder(object):
         packet.add_cover_page(self.reader + '\'s Application Packet')
 
         apps = wufoo_entry_loader.load_apps(fields=['full_name', 'questions'])
-        references = wufoo_entry_loader.load_references(fields=['applicant_full_name', 'questions'], rename={'applicant_full_name': 'full_name'})
+        references = wufoo_entry_loader.load_references(fields=['applicant_full_name', 'questions'])
 
         for (name, id_) in self.assigned_applicants.items():
-            app_questions = get_questions(name, apps)
+            app_questions = get_questions(name, 'full_name', apps)
             packet.append(app_questions[:-2], 'Applicant #{}'.format(id_))
             packet.add_cover_page('STOP!\nGive a pre-special sauce score before looking at Special Sauce.')
             packet.append(app_questions[-2:])
             packet.add_cover_page('STOP!\nGive a post-special sauce score before reading the letter of reference.')
 
             try:
-                reference_questions = get_questions(name, references)
+                reference_questions = get_questions(name, 'applicant_full_name', references)
                 packet.append(reference_questions, 'Reference for Applicant #{}'.format(id_))
                 packet.add_cover_page('STOP!\nGive a post-reference score before continuing on to the next application.')
             except KeyError:
