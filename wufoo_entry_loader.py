@@ -69,7 +69,8 @@ def load_apps(fields, rename={}, metadata={}):
         ('Why do you want to volunteer your time for Camp Kesem?', 30),
         ('In what ways would you contribute to the diversity of Kesem\'s community?', 31),
         ('Special Sauce', 32),
-        ('Special Sauce Upload', 34)
+        ('Additional Info', 33),
+        ('Additional Info Upload (sometimes contains special sauce)', 34)
     ]
     fields_map = {
         'first_name': lambda row: normalize(row[1]),
@@ -78,6 +79,7 @@ def load_apps(fields, rename={}, metadata={}):
         'email': lambda row: normalize(row[9]),
         'school_year': lambda row: row[7],
         'gender': lambda row: normalize(row[5]),
+        'submission_time': lambda row: row[37],
         'questions': lambda row: [(q, row[index]) for (q, index) in APP_QUESTIONS]
     }
     key = fields_map['email']
@@ -109,6 +111,7 @@ def load_references(fields, rename={}, metadata={}):
         'applicant_first_name': lambda row: normalize(row[5]),
         'applicant_last_name': lambda row: normalize(row[6]),
         'applicant_full_name': lambda row: make_name(row[5], row[6]),
+        'submission_time': lambda row: row[26],
         'questions': lambda row: [(q, row[index]) for (q, index) in REFERENCE_QUESTIONS]
     }
     key = lambda row: (fields_map['reference_full_name'](row), fields_map['applicant_full_name'](row))
