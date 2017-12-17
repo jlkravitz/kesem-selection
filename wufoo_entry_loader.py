@@ -17,7 +17,7 @@ def make_name(first_name, last_name):
     return normalize(first_name) + ' ' + normalize(last_name)
 
 def load_wufoo_entries(csv_file_name, key,
-        field_map, fields, rename, metadata):
+        field_map, fields, rename):
     """Load apps CSV from exported Wufoo entries.
 
     Parameters
@@ -35,8 +35,6 @@ def load_wufoo_entries(csv_file_name, key,
         the fields requested – all fields in this list should be keys of `field_map`
     rename: dict(str, str)
         maps fields to new names
-    metadata: dict(str, <any>)
-        extra (constant) metadata to store in each python entry
 
     """
     with open(csv_file_name) as f:
@@ -45,20 +43,18 @@ def load_wufoo_entries(csv_file_name, key,
 
         # We keep the most recent entry based on the identifier.
         return [
-            build_entry(row, field_map, fields, rename, metadata)
+            build_entry(row, field_map, fields, rename)
             for row in entry_reader
             if row[-1] == '1'  # Checks if Wufoo entry was actually submitted]
         ]
 
-def build_entry(row, field_map, fields, rename, metadata):
-    entry = {
+def build_entry(row, field_map, fields, rename):
+    return {
         rename.get(field_name, field_name): field_map[field_name](row)
         for field_name in fields
     }
-    entry.update(metadata)
-    return entry
 
-def load_apps(fields, rename={}, metadata={}):
+def load_apps(fields, rename={}):
     APP_QUESTIONS = [
         ('Describe your relevant experience working with children.', 24),
         ('Describe your experience working at camp.', 25),
@@ -83,9 +79,9 @@ def load_apps(fields, rename={}, metadata={}):
         'questions': lambda row: [(q, row[index]) for (q, index) in APP_QUESTIONS]
     }
     key = fields_map['email']
-    return load_wufoo_entries('apps.csv', key, fields_map, fields, rename, metadata)
+    return load_wufoo_entries('apps.csv', key, fields_map, fields, rename )
 
-def load_references(fields, rename={}, metadata={}):
+def load_references(fields, rename={}):
     REFERENCE_QUESTIONS = [
         ('How do they know the applicant?', 7),
         ('How well does the applicant work with others in a team environment?', 8),
@@ -115,5 +111,5 @@ def load_references(fields, rename={}, metadata={}):
         'questions': lambda row: [(q, row[index]) for (q, index) in REFERENCE_QUESTIONS]
     }
     key = lambda row: (fields_map['reference_full_name'](row), fields_map['applicant_full_name'](row))
-    return load_wufoo_entries('references.csv', key, fields_map, fields, rename, metadata)
+    return load_wufoo_entries('references.csv', key, fields_map, fields, rename)
 
