@@ -32,7 +32,8 @@ To get these scripts running, run the following commands in your terminal.
 6. Install fpdf, a python library for building pdfs: `pip3 install fpdf`
 
 Once you have the exported applications and references in CSV format, move them to the
-`kesem-selection` directory and call them `apps.csv` and `references.csv`.
+`kesem-selection` directory and call them `apps.csv` and `references.csv` (you can do
+this in Finder if you have a Mac).
 
 ## Instructions
 
