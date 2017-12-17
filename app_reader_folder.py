@@ -16,7 +16,7 @@ class AppReaderFolder(object):
     def make_score_sheet(self):
         with open(os.path.join(self.reader_dir, self.reader + ' Score Sheet.csv'), 'w') as f:
             writer = csv.writer(f)
-            writer.writerow(['', 'Score (1-5)', 'Notes'])
+            writer.writerow(['', 'PRE- Special Sauce Score (1-5)', 'POST- Reference Score (1-5)', 'Notes'])
             for id_ in self.assigned_applicants.values():
                 writer.writerow([id_])
 
@@ -37,16 +37,15 @@ class AppReaderFolder(object):
         for (name, id_) in self.assigned_applicants.items():
             app_questions = get_questions(name, 'full_name', apps)
             packet.append(app_questions[:-2], 'Applicant #{}'.format(id_))
-            packet.add_cover_page('STOP!\nGive a pre-special sauce score before looking at Special Sauce.')
+            packet.add_cover_page('STOP!\nGive a pre-special sauce score before looking at Special Sauce and the letter of reference.')
             packet.append(app_questions[-2:])
-            packet.add_cover_page('STOP!\nGive a post-special sauce score before reading the letter of reference.')
 
             try:
                 reference_questions = get_questions(name, 'applicant_full_name', references)
                 packet.append(reference_questions, 'Reference for Applicant #{}'.format(id_))
-                packet.add_cover_page('STOP!\nGive a post-reference score before continuing on to the next application.')
             except KeyError:
                 packet.add_cover_page('Reference for Applicant #{} is missing.'.format(id_))
+            packet.add_cover_page('STOP!\nGive a post-reference score (including special sauce) before continuing on to the next application.')
 
         packet.save(os.path.join(self.reader_dir, self.reader + ' Application Packet.pdf'))
 
