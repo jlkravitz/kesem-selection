@@ -24,7 +24,7 @@ def make_app_pdfs(applicant_ids):
         wufoo_pdf = WufooPDF()
         title = 'Applicant #{}'.format(applicant_ids[app['full_name']])
         wufoo_pdf.append(app['questions'], title)
-        wufoo_pdf.save('apps/', title)
+        wufoo_pdf.save(os.path.join('apps/', title + '.pdf'))
 
 def make_reference_pdfs(applicant_ids):
     os.mkdir('references')
@@ -45,7 +45,7 @@ def make_reference_pdfs(applicant_ids):
 
         wufoo_pdf = WufooPDF()
         wufoo_pdf.append(reference['questions'], title)
-        wufoo_pdf.save('references/', title)
+        wufoo_pdf.save(os.path.join('references/', title + '.pdf'))
 
 def main():
     applicant_ids = load_applicant_ids()

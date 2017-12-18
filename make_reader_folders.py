@@ -24,14 +24,35 @@ def load_applicants():
         return dict((row[0], row[1]) for row in reader)  # name --> id
 
 def make_app_assignments(name2id, conflicts_of_interest):
+
+    def count_conflicts(applicant):
+        return -sum(applicant[0] in conflicts
+                for conflicts in conflicts_of_interest.values())
+
     app2readers = defaultdict(list)
     reader2apps = defaultdict(list)
 
     readers = list(conflicts_of_interest.keys())
-    random.shuffle(readers)
 
-    applicants = list(name2id.items())
-    random.shuffle(applicants)
+    # Why do we sort by number of conflicts? Honestly, I'm not sure if it's a
+    # heuristic that I educationally-guessed would work well or if it
+    # mathematically works. It's easier to think about what would go wrong if
+    # we didn't do this.
+    #
+    # Suppose we have 2 applicants and 2 readers and 1 reader/app.  Reader 1
+    # has no conflicts. Reader 2 cannot read Applicant 2's app. Consider the
+    # case where we assign Reader 1 to read Applicant 1. Next, we look at
+    # Applicant 2 and see that only Reader 1 can read that app, so we assign it
+    # to Reader 1, also. But now Reader 1 is reading 2 apps and Reader 2 is
+    # reading none! Basically, this can cause imbalance.
+    #
+    # By sorting the list, we would first assign Reader 1 to Applicant 2.
+    # Then, we would consider Applicant 1, which could be assigned to Reader 2.
+    #
+    # NOTE: the way the current algorithm is implemented, it's not *guaranteed*
+    # that Reader 2 would be assigned to Applicant 1. We randomize the readers
+    # for each iteration so it tends to work out.
+    applicants = sorted(list(name2id.items()), key=count_conflicts)
 
     # This continues assigning readers to applicants until no A single
     # iteration iterates through all reader/applicant pairs and tries to assign
@@ -45,6 +66,10 @@ def make_app_assignments(name2id, conflicts_of_interest):
     curr_assigned = 0
     while curr_assigned > prev_assigned:
         prev_assigned = curr_assigned
+
+        # Randomizing readers avoids the scenario where the same pairs of readers
+        # are assigned to applicants.
+        random.shuffle(readers)
         for reader in readers:
             for (name, id_) in applicants:
                 if name not in conflicts_of_interest[reader] and \

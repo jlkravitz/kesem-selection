@@ -1,5 +1,6 @@
 import csv
 import os
+import random
 import wufoo_pdf
 import wufoo_entry_loader
 
@@ -11,7 +12,8 @@ class AppReaderFolder(object):
         if not os.path.exists(self.reader_dir):
             os.makedirs(self.reader_dir)
 
-        self.assigned_applicants = assigned_applicants  # dict from name to id
+        random.shuffle(assigned_applicants)
+        self.assigned_applicants = assigned_applicants
 
     def make_score_sheet(self):
         with open(os.path.join(self.reader_dir, self.reader + ' Score Sheet.csv'), 'w') as f:
@@ -21,7 +23,6 @@ class AppReaderFolder(object):
                 writer.writerow([id_])
 
     def make_app_packet(self):
-
         def get_questions(name, name_field, entries):
             for entry in entries:
                 if entry[name_field] == name:
@@ -36,9 +37,9 @@ class AppReaderFolder(object):
 
         for (name, id_) in self.assigned_applicants:
             app_questions = get_questions(name, 'full_name', apps)
-            packet.append(app_questions[:-2], 'Applicant #{}'.format(id_))
+            packet.append(app_questions[:-3], 'Applicant #{}'.format(id_))
             packet.add_cover_page('STOP!\nGive a pre-special sauce score before looking at Special Sauce and the letter of reference.')
-            packet.append(app_questions[-2:])
+            packet.append(app_questions[-3:])
 
             try:
                 reference_questions = get_questions(name, 'applicant_full_name', references)
