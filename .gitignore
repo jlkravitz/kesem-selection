@@ -2,7 +2,7 @@ apps/
 references/
 fonts/
 __pycache__/
-apps.csv
-references.csv
-applicant_ids.csv
+*.csv
 .DS_Store
+*.pyc
+*.swp
