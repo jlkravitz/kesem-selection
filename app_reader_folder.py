@@ -8,7 +8,7 @@ class AppReaderFolder(object):
     def __init__(self, reader, assigned_applicants):
         self.reader = reader
 
-        self.reader_dir = os.path.join('Application Reads', reader)
+        self.reader_dir = os.path.join('Application Reading', reader)
         if not os.path.exists(self.reader_dir):
             os.makedirs(self.reader_dir)
 
