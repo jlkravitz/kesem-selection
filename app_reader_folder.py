@@ -17,7 +17,7 @@ class AppReaderFolder(object):
         with open(os.path.join(self.reader_dir, self.reader + ' Score Sheet.csv'), 'w') as f:
             writer = csv.writer(f)
             writer.writerow(['', 'PRE- Special Sauce Score (1-5)', 'POST- Reference Score (1-5)', 'Notes'])
-            for id_ in self.assigned_applicants.values():
+            for (_, id_) in self.assigned_applicants:
                 writer.writerow([id_])
 
     def make_app_packet(self):
@@ -34,7 +34,7 @@ class AppReaderFolder(object):
         apps = wufoo_entry_loader.load_apps(fields=['full_name', 'questions'])
         references = wufoo_entry_loader.load_references(fields=['applicant_full_name', 'questions'])
 
-        for (name, id_) in self.assigned_applicants.items():
+        for (name, id_) in self.assigned_applicants:
             app_questions = get_questions(name, 'full_name', apps)
             packet.append(app_questions[:-2], 'Applicant #{}'.format(id_))
             packet.add_cover_page('STOP!\nGive a pre-special sauce score before looking at Special Sauce and the letter of reference.')
