@@ -51,10 +51,10 @@ Run the following commands from your terminal in the `kesem-selection` directory
     3. **NOTE:** *You should NOT continue past this step until all issues listed by `cross_reference.py`
     are manually resolved (i.e., by removing extra letters of reference and fixing names such that
     each application corresponds with exactly one letter of reference). Keep running `python3 cross_reference.py`
-    until nothing is listed!*
+    until nothing (except for references that truly don't have a matching applicant) is listed!*
 2. Optional: `python3 app_stats.py`
     1. This will list the applicant breakdown in each year and the gender breakdown within each year.
-    2. At this point, you can run this whenever – it only analyzes the data and changes nothing!
+    2. You can run this whenever you want – it only analyzes the data and changes nothing!
 3. `python3 assign_applicant_ids.py`
     1. This script assigns IDs to each application. This is for the purpose of anonymizing applications
     and for use in the final deliberation room (if your Rainbow decides to anonymize deliberations, too).
@@ -70,19 +70,26 @@ From here, choose one of the options below (you'll probably do both eventually) 
 Follow these instructions for setting up the process of having readers score each application.
 
 4. `python3 make_conflicts_of_interest_spreadsheet.csv`
-    1. This script creates a spreadsheet for marking applicants that each reader knows. This will prevent that
-    reader from being assigned that applicant.
-    2. You will have to know who is reading applications to run this script (you will have to enter their names).
+    1. This script creates a spreadsheet which allows readers to mark applicants they know. Any marked applicants
+    won't be assigned to that reader.
+    2. You'll have to know the names of every reader to run this script.
     3. Once you've run this, upload `conflicts_of_interest.csv` to Google Drive and open it in Google Sheets. Have
-    readers mark people they know with an "x".
-    4. Once every reader has completed this, download the file as a CSV and put it back into the `kesem/` directory.
+    readers mark people they know with an "x" (any non-empty cell will count).
+    4. Once completed by each reader, download the file as a CSV and put it back into the `kesem/` directory.
 5. `python3 make_reader_folders.py`
-    1. This script will assign applicants to each reader and create a folder with a scoresheet and application packet for
-    them. Make sure to quickly inspect `app_read_assignments.csv` before letting the script continue (run the script to find     out what I mean here – it won't do anything dangerous, so don't worry).
-    2. Upload the `Application Reading/` folder to Google Drive. Tell readers to double click on their CSV score sheets and     click "Open in Google Sheets".
-    3. Wahoo! Readers are ready to read applications.
-    
-At this point, you might want to also upload `applicant_ids.csv` to the `Application Reading/` folder on Google Drive to make sure you don't accidentally delete that file (see above for why!).
+    1. For each reader, this script assigns applicants (keeping in mind the conflicts spreadsheet above),
+    creates a reader-specific score sheet, and creates a reader-specific application packet with applications
+    and letters of reference for each applicant.
+    2. Make sure to quickly inspect `app_read_assignments.csv` before letting the script continue
+    (run the script to find out what I mean here – it won't do anything dangerous, so don't worry).
+    2. Once the script finishes running (be patient! this can take a few minutes), upload the
+    `Application Reading/` folder to Google Drive. Tell readers to double click on their CSV score
+    sheets and click "Open in Google Sheets".
+    3. Wahoo! Readers can now read apps. 
+6. At this point, you should upload `applicant_ids.csv` to the `Application Reading/` folder on
+Google Drive to make sure you don't accidentally delete that file (see above for why!). Rename
+it to `Applicant IDs (SENSITIVE: DO NOT OPEN).csv` so that people get the message. Anonymity goes
+out the window if readers or Rainbow members look at this file.
 
 ### Pre-Interview Application Reading
 
