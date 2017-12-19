@@ -58,20 +58,21 @@ Run the following commands from your terminal in the `kesem-selection` directory
     *Do this carefully, as you are effectively removing an application or reference from our application pool.*
     4. Each time you make a change to `apps.csv` or `references.csv`, run `python cross_reference.py` again.
     Make sure you see the expected result.
-    3. **NOTE:** *You should NOT continue past this step until all issues listed by `cross_reference.py`
+    4. **NOTE:** *You should NOT continue past this step until all issues listed by `cross_reference.py`
     are manually resolved (i.e., by removing extra letters of reference and fixing names such that
     each application corresponds with exactly one letter of reference). Keep running `python cross_reference.py`
     until nothing (except for references that truly don't have a matching applicant) is listed!*
+    5. **ALERT:** Once you have completed this step, *immediately* upload `apps.csv` and `references.csv`
+    to Google Drive. You do not want to lose these files!
 2. Optional: `python app_stats.py`
     1. This will list the applicant breakdown in each year and the gender breakdown within each year.
     2. You can run this whenever you want – it only analyzes the data and changes nothing!
 3. `python assign_applicant_ids.py`
     1. This script assigns IDs to each application. This is for the purpose of anonymizing applications
     and for use in the final deliberation room (if your Rainbow decides to anonymize deliberations, too).
-    2. **IMPORTANT:** Once you start reading apps (see below), you *cannot* lose this file. Otherwise, you won't
-    know which application was written by which applicant. In other words, you're screwed. (To be clear, you
-    probably could get out of this sticky situation by looking at the letters of reference which often reference
-    applicant's first or last names...but it wouldn't be fun to do.)
+    2. **ALERT:** Once you have completed this step, **immediately upload `applicants_ids.csv` to Google
+    Drive. You do not want to lose this file! (If you do, you won't know which ID corresponds with which
+    applicant, which is very sad :()
     
 From here, choose one of the options below (you'll probably do both eventually) ...
 
