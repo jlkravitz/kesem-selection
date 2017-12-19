@@ -1,3 +1,4 @@
+from __future__ import print_function
 from collections import defaultdict
 import wufoo_entry_loader
 

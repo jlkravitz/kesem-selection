@@ -1,3 +1,4 @@
+from __future__ import print_function
 from collections import defaultdict
 import csv
 import random
@@ -104,7 +105,7 @@ def main():
     save_app_assignments(reader2apps, app2readers)
     print('Quickly inspect app assignments in app_read_assignments.csv to make sure ' +\
             'nothing looks fishy (enter to continue)...')
-    input()
+    raw_input()
     make_reader_folders(reader2apps)
 
 if __name__ == '__main__':

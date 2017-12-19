@@ -2,6 +2,7 @@
 
 Note: The order is randomized each time, so only run this once!
 """
+from __future__ import print_function
 import csv
 import random
 import wufoo_entry_loader

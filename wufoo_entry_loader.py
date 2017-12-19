@@ -1,10 +1,10 @@
 """Helper library for loading Wufoo form entries into python.
 
 Some general terms and abstractions used in this file...
-    • column: original column name in the CSV file full of Wufoo entries
-    • field: value derived from original columns meant for python objects
+    * column: original column name in the CSV file full of Wufoo entries
+    * field: value derived from original columns meant for python objects
              representing Wufoo entries
-    • entry: refers to both Wufoo entries (form submissions) and python
+    * entry: refers to both Wufoo entries (form submissions) and python
              entries (pythonic representations of these submissions)
  """
 
@@ -32,7 +32,7 @@ def load_wufoo_entries(csv_file_name, key,
         maps fields to their corresponding builder functions, which build the
         field from the original columns of the Wufoo entries
     fields: list(str)
-        the fields requested – all fields in this list should be keys of `field_map`
+        the fields requested -- all fields in this list should be keys of `field_map`
 
     """
     with open(csv_file_name) as f:

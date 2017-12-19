@@ -1,3 +1,4 @@
+
 import fpdf
 import os
 import re
@@ -28,15 +29,21 @@ class WufooPDF(object):
             self.add_spacing(4)
 
     def preprocess_fpdf_text(self, text):
-        # https://stackoverflow.com/questions/33404752/removing-emojis-from-a-string-in-python 
-        # FPDF doesn't like emojis, so remove them here.
-        emoji_pattern = re.compile('['
-            u'\U0001F600-\U0001F64F'  # emoticons
-            u'\U0001F300-\U0001F5FF'  # symbols & pictographs
-            u'\U0001F680-\U0001F6FF'  # transport & map symbols
-            u'\U0001F1E0-\U0001F1FF'  # flags (iOS)
-           ']+', flags=re.UNICODE)
-        text = emoji_pattern.sub(r'', text)
+        # This is only necessary for UCS-4 and UTF-8 since these characters are not representable
+        # in UCS-2 (in general, python 2 is compiled with UCS-2). This throws an error if not
+        # representable, so we put this in a try/catch to be safe.
+        try:
+            # https://stackoverflow.com/questions/33404752/removing-emojis-from-a-string-in-python 
+            # FPDF doesn't like emojis, so remove them here.
+            emoji_pattern = re.compile('['
+                u'\U0001F600-\U0001F64F'  # emoticons
+                u'\U0001F300-\U0001F5FF'  # symbols & pictographs
+                u'\U0001F680-\U0001F6FF'  # transport & map symbols
+                u'\U0001F1E0-\U0001F1FF'  # flags (iOS)
+               ']+', flags=re.UNICODE)
+            text = emoji_pattern.sub(r'', text)
+        except:
+            pass
 
         # FPDF doesn't correctly display tabs. Just convert to spaces.
         text = text.replace('\t', '    ')

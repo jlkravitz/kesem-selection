@@ -1,3 +1,4 @@
+from __future__ import print_function
 import csv
 
 def load_applicants():
@@ -13,7 +14,7 @@ def main():
 
         readers = []
         while True:
-            reader = input('Enter application reader\'s name (or nothing to continue): ')
+            reader = raw_input('Enter application reader\'s name (or nothing to continue): ')
             if not reader:
                 break
             readers.append(reader)
@@ -24,7 +25,7 @@ def main():
             writer.writerow([applicant])
 
     print()
-    print('Wahoo! The CSV has been written to app_reading_violations.csv.')
+    print('Wahoo! The CSV has been written to conflicts_of_interest.csv.')
     print('Open this file in a Google Sheet, have readers mark those apps they should not read, then run `assign_app_readers.py`')
 
 if __name__ == '__main__':

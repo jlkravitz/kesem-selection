@@ -1,3 +1,4 @@
+from __future__ import print_function
 import csv
 import fpdf
 import os
@@ -16,7 +17,6 @@ def load_applicant_ids():
         }
 
 def make_app_pdfs(applicant_ids):
-    os.mkdir('apps')
     apps = wufoo_entry_loader.load_apps(fields=['full_name', 'questions'])
     for i, app in enumerate(apps):
         if i != 0 and i % 10 == 0:
@@ -27,7 +27,6 @@ def make_app_pdfs(applicant_ids):
         wufoo_pdf.save(os.path.join('apps/', title + '.pdf'))
 
 def make_reference_pdfs(applicant_ids):
-    os.mkdir('references')
     references = wufoo_entry_loader.load_references(['applicant_full_name', 'questions'])
     for i, reference in enumerate(references):
         if i != 0 and i % 10 == 0:
@@ -48,6 +47,8 @@ def make_reference_pdfs(applicant_ids):
         wufoo_pdf.save(os.path.join('references/', title + '.pdf'))
 
 def main():
+    os.mkdir('apps')
+    os.mkdir('references')
     applicant_ids = load_applicant_ids()
     make_app_pdfs(applicant_ids)
     make_reference_pdfs(applicant_ids)

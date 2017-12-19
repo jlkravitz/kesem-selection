@@ -1,3 +1,4 @@
+from __future__ import print_function
 import wufoo_entry_loader
 
 def make_color(val, color):
