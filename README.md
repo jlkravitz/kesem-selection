@@ -34,9 +34,11 @@ This will make it easier to view and edit CSV files, which you'll have to do lat
 
 Move them to the `kesem-selection` directory and call them `apps.csv` and `references.csv` (you can do
 this in Finder if you have a Mac).
-    1. **NOTE:** Only export once you know you have *all* applications and references. These scripts
-    don't play nicely with "new" apps and references. This means that you can't start reading apps until
-    *all* apps are in, so don't give long deadline extensions!
+
+**NOTE:** Only export once you know you have *all* applications and references.
+These scripts don't play nicely with "new" apps and references. This means that
+you can't start reading apps until *all* apps are in, so don't give long
+deadline extensions!
 
 Nice! Your computer is ready to rumble...
 
@@ -58,11 +60,11 @@ Run the following commands from your terminal in the `kesem-selection` directory
     *Do this carefully, as you are effectively removing an application or reference from our application pool.*
     4. Each time you make a change to `apps.csv` or `references.csv`, run `python cross_reference.py` again.
     Make sure you see the expected result.
-    4. **NOTE:** *You should NOT continue past this step until all issues listed by `cross_reference.py`
+    4. **LISTEN UP!:** You should *NOT* continue past this step until all issues listed by `cross_reference.py`
     are manually resolved (i.e., by removing extra letters of reference and fixing names such that
     each application corresponds with exactly one letter of reference). Keep running `python cross_reference.py`
-    until nothing (except for references that truly don't have a matching applicant) is listed!*
-    5. **ALERT:** Once you have completed this step, *immediately* upload `apps.csv` and `references.csv`
+    until nothing (except for references that truly don't have a matching applicant) is listed!
+    5. **LISTEN UP!:** Once you have completed this step, *immediately* upload `apps.csv` and `references.csv`
     to Google Drive. You do not want to lose these files!
 2. Optional: `python app_stats.py`
     1. This will list the applicant breakdown in each year and the gender breakdown within each year.
@@ -70,7 +72,7 @@ Run the following commands from your terminal in the `kesem-selection` directory
 3. `python assign_applicant_ids.py`
     1. This script assigns IDs to each application. This is for the purpose of anonymizing applications
     and for use in the final deliberation room (if your Rainbow decides to anonymize deliberations, too).
-    2. **ALERT:** Once you have completed this step, **immediately upload `applicants_ids.csv` to Google
+    2. **LISTEN UP!:** Once you have completed this step, **immediately upload `applicants_ids.csv` to Google
     Drive. You do not want to lose this file! (If you do, you won't know which ID corresponds with which
     applicant, which is very sad :()
     
