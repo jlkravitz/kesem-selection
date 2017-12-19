@@ -88,7 +88,7 @@ Follow these instructions for setting up the process of having readers score eac
     2. You'll have to know the names of every reader to run this script.
     3. Once you've run this, upload `conflicts_of_interest.csv` to Google Drive and open it in Google Sheets. Have
     readers mark people they know with an "x" (any non-empty cell will count).
-    4. Once completed by each reader, download the file as a CSV and put it back into the `kesem/` directory.
+    4. Once completed by each reader, download the file as a CSV and put it back into the `kesem-selection/` directory.
 5. `python make_reader_folders.py`
     1. For each reader, this script assigns applicants (keeping in mind the conflicts spreadsheet above),
     creates a reader-specific score sheet, and creates a reader-specific application packet with applications
