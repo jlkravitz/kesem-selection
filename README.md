@@ -30,10 +30,16 @@ To get these scripts running, run the following commands in your terminal.
 4. Install Homebrew (This is safe and fast! I swear!): `ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 5. Install python3: `brew install python3`
 6. Install fpdf, a python library for building pdfs: `pip3 install fpdf`
-
-Once you have the exported applications and references in CSV format, move them to the
-`kesem-selection` directory and call them `apps.csv` and `references.csv` (you can do
+7. Separately, install [Table Tool](https://itunes.apple.com/us/app/table-tool/id1122008420) for Mac.
+This will make it easier to view and edit CSV files, which you'll have to do later.
+8. Separately (again), export the applications and references from Wufoo into CSV format.
+Move them to the `kesem-selection` directory and call them `apps.csv` and `references.csv` (you can do
 this in Finder if you have a Mac).
+    1. **NOTE:** Only export once you know you have *all* applications and references. These scripts
+    don't play nicely with "new" apps and references. This means that you can't start reading apps until
+    *all* apps are in, so don't give long deadline extensions!
+
+Nice! Your computer is ready to rumble...
 
 ## Instructions
 
