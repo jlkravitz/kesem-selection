@@ -27,12 +27,11 @@ To get these scripts running, run the following commands in your terminal.
 1. Navigate to your "Documents" directory: `cd ~/Documents`
 2. Clone this github repository: `git clone git@github.com:jlkravitz/kesem-selection.git`
 3. Navigate to the new directory: `cd kesem-selection`
-4. Install Homebrew (This is safe and fast! I swear!): `ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
-5. Install python3: `brew install python3`
-6. Install fpdf, a python library for building pdfs: `pip3 install fpdf`
-7. Separately, install [Table Tool](https://itunes.apple.com/us/app/table-tool/id1122008420) for Mac.
+4. Install fpdf, a python library for building pdfs: `pip install fpdf`
+5. Separately, install [Table Tool](https://itunes.apple.com/us/app/table-tool/id1122008420) for Mac.
 This will make it easier to view and edit CSV files, which you'll have to do later.
-8. Separately (again), export the applications and references from Wufoo into CSV format.
+6. Separately (again), export the applications and references from Wufoo into CSV format.
+
 Move them to the `kesem-selection` directory and call them `apps.csv` and `references.csv` (you can do
 this in Finder if you have a Mac).
     1. **NOTE:** Only export once you know you have *all* applications and references. These scripts
@@ -41,27 +40,32 @@ this in Finder if you have a Mac).
 
 Nice! Your computer is ready to rumble...
 
+(For computer nerds: This code is python2-compatible and *almost* python3 compatible.
+I originally wrote this for python3 since it's easier to deal with unicode, but decided
+to change to python2 to avoid forcing non-computer-nerds to install python3, which isn't
+installed on computers by default.)
+
 ## Instructions
 
 Run the following commands from your terminal in the `kesem-selection` directory.
 
-1. `python3 cross_reference.py`
+1. `python cross_reference.py`
     1. This script cross references each applicant with each letter of reference and vice
     versa. It will list any problems (e.g., applicants that don't seem to have a letter of reference).
     2. You will have to fix these problems before running any other scripts (the one exception: applicants
     with letters that are *truly* missing).
     3. To have the scripts "ignore" an application or reference, change the "Completion Status" column to a 0.
     *Do this carefully, as you are effectively removing an application or reference from our application pool.*
-    4. Each time you make a change to `apps.csv` or `references.csv`, run `python3 cross_reference.py` again.
+    4. Each time you make a change to `apps.csv` or `references.csv`, run `python cross_reference.py` again.
     Make sure you see the expected result.
     3. **NOTE:** *You should NOT continue past this step until all issues listed by `cross_reference.py`
     are manually resolved (i.e., by removing extra letters of reference and fixing names such that
-    each application corresponds with exactly one letter of reference). Keep running `python3 cross_reference.py`
+    each application corresponds with exactly one letter of reference). Keep running `python cross_reference.py`
     until nothing (except for references that truly don't have a matching applicant) is listed!*
-2. Optional: `python3 app_stats.py`
+2. Optional: `python app_stats.py`
     1. This will list the applicant breakdown in each year and the gender breakdown within each year.
     2. You can run this whenever you want – it only analyzes the data and changes nothing!
-3. `python3 assign_applicant_ids.py`
+3. `python assign_applicant_ids.py`
     1. This script assigns IDs to each application. This is for the purpose of anonymizing applications
     and for use in the final deliberation room (if your Rainbow decides to anonymize deliberations, too).
     2. **IMPORTANT:** Once you start reading apps (see below), you *cannot* lose this file. Otherwise, you won't
@@ -75,14 +79,14 @@ From here, choose one of the options below (you'll probably do both eventually) 
 
 Follow these instructions for setting up the process of having readers score each application.
 
-4. `python3 make_conflicts_of_interest_spreadsheet.csv`
+4. `python make_conflicts_of_interest_spreadsheet.csv`
     1. This script creates a spreadsheet which allows readers to mark applicants they know. Any marked applicants
     won't be assigned to that reader.
     2. You'll have to know the names of every reader to run this script.
     3. Once you've run this, upload `conflicts_of_interest.csv` to Google Drive and open it in Google Sheets. Have
     readers mark people they know with an "x" (any non-empty cell will count).
     4. Once completed by each reader, download the file as a CSV and put it back into the `kesem/` directory.
-5. `python3 make_reader_folders.py`
+5. `python make_reader_folders.py`
     1. For each reader, this script assigns applicants (keeping in mind the conflicts spreadsheet above),
     creates a reader-specific score sheet, and creates a reader-specific application packet with applications
     and letters of reference for each applicant.
@@ -102,7 +106,7 @@ out the window if readers or Rainbow members look at this file.
 Follow these instructions for making PDFs of apps and references for ULs/Rainbow members to read before interviews
 to learn about the applicant their interviewing.
 
-4. `python3 make_individual_pdfs.py`
+4. `python make_individual_pdfs.py`
     1. This script makes PDFs for both applications (which go in the directory `apps/`) and letters of
     reference (which go in the directory `references/`).
     2. Upload the `apps/` and `references/` directories to Google Drive (or only `apps/` if that's all
