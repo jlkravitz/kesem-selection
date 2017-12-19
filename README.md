@@ -72,9 +72,9 @@ Run the following commands from your terminal in the `kesem-selection` directory
 3. `python assign_applicant_ids.py`
     1. This script assigns IDs to each application. This is for the purpose of anonymizing applications
     and for use in the final deliberation room (if your Rainbow decides to anonymize deliberations, too).
-    2. **LISTEN UP!:** Once you have completed this step, **immediately upload `applicants_ids.csv` to Google
+    2. **LISTEN UP!:** Once you have completed this step, *immediately* upload `applicants_ids.csv` to Google
     Drive. You do not want to lose this file! (If you do, you won't know which ID corresponds with which
-    applicant, which is very sad :()
+    applicant, which is very sad :sob:)
     
 From here, choose one of the options below (you'll probably do both eventually) ...
 
