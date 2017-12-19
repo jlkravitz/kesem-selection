@@ -52,7 +52,10 @@ Run the following commands from your terminal in the `kesem-selection` directory
     are manually resolved (i.e., by removing extra letters of reference and fixing names such that
     each application corresponds with exactly one letter of reference). Keep running `python3 cross_reference.py`
     until nothing is listed!*
-2. `python3 assign_applicant_ids.py`
+2. Optional: `python3 app_stats.py`
+    1. This will list the applicant breakdown in each year and the gender breakdown within each year.
+    2. At this point, you can run this whenever – it only analyzes the data and changes nothing!
+3. `python3 assign_applicant_ids.py`
     1. This script assigns IDs to each application. This is for the purpose of anonymizing applications
     and for use in the final deliberation room (if your Rainbow decides to anonymize deliberations, too).
     2. **IMPORTANT:** Once you start reading apps (see below), you *cannot* lose this file. Otherwise, you won't
@@ -66,14 +69,14 @@ From here, choose one of the options below (you'll probably do both eventually) 
 
 Follow these instructions for setting up the process of having readers score each application.
 
-3. `python3 make_conflicts_of_interest_spreadsheet.csv`
+4. `python3 make_conflicts_of_interest_spreadsheet.csv`
     1. This script creates a spreadsheet for marking applicants that each reader knows. This will prevent that
     reader from being assigned that applicant.
     2. You will have to know who is reading applications to run this script (you will have to enter their names).
     3. Once you've run this, upload `conflicts_of_interest.csv` to Google Drive and open it in Google Sheets. Have
     readers mark people they know with an "x".
     4. Once every reader has completed this, download the file as a CSV and put it back into the `kesem/` directory.
-4. `python3 make_reader_folders.py`
+5. `python3 make_reader_folders.py`
     1. This script will assign applicants to each reader and create a folder with a scoresheet and application packet for
     them. Make sure to quickly inspect `app_read_assignments.csv` before letting the script continue (run the script to find     out what I mean here – it won't do anything dangerous, so don't worry).
     2. Upload the `Application Reading/` folder to Google Drive. Tell readers to double click on their CSV score sheets and     click "Open in Google Sheets".
@@ -86,7 +89,7 @@ At this point, you might want to also upload `applicant_ids.csv` to the `Applica
 Follow these instructions for making PDFs of apps and references for ULs/Rainbow members to read before interviews
 to learn about the applicant their interviewing.
 
-3. `python3 make_individual_pdfs.py`
+4. `python3 make_individual_pdfs.py`
     1. This script makes PDFs for both applications (which go in the directory `apps/`) and letters of
     reference (which go in the directory `references/`).
     2. Upload the `apps/` and `references/` directories to Google Drive (or only `apps/` if that's all
