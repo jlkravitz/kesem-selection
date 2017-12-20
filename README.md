@@ -33,8 +33,11 @@ To get these scripts running, run the following commands in your terminal.
 This will make it easier to view and edit CSV files, which you'll have to do later.
 6. Separately (again), export the applications and references from Wufoo into CSV format.
 
-Move them to the `AppReading` directory (created above). Call them `apps.csv` and
-`references.csv` (you can do this in Finder if you have a Mac).
+Move them to the `AppReading` directory, created above. Call them `apps.csv` and
+`references.csv`.
+
+The `AppReading` directory will be your home for all things related to applications.
+Eventually, you'll want to uplaod this entire directory to Google Drive.
 
 **NOTE:** Only export once you know you have *all* applications and references.
 These scripts don't play nicely with "new" apps and references. This means that
@@ -66,7 +69,7 @@ Run the following commands from your terminal in the `kesem-selection` directory
     each application corresponds with exactly one letter of reference). Keep running `python cross_reference.py`
     until nothing (except for references that truly don't have a matching applicant) is listed!
     5. **LISTEN UP!:** Once you have completed this step, *immediately* upload `apps.csv` and `references.csv`
-    to Google Drive. You do not want to lose these files!
+    (or simply the entire `AppReading` directory) to Google Drive. You do not want to lose these files!
 2. Optional: `python app_stats.py`
     1. This will list the applicant breakdown in each year and the gender breakdown within each year.
     2. You can run this whenever you want – it only analyzes the data and changes nothing!
