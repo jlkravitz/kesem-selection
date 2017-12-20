@@ -4,6 +4,7 @@ Note: The order is randomized each time, so only run this once!
 """
 from __future__ import print_function
 import csv
+import os
 import random
 import wufoo_entry_loader
 
@@ -13,7 +14,7 @@ def main():
 
     # Save applicant IDs.
     # Index in list is their ID.
-    with open('applicant_ids.csv', 'w') as f:
+    with open(os.path.join('AppReading', 'applicant_ids.csv'), 'w') as f:
         writer = csv.writer(f)
         for i, app in enumerate(apps):
             writer.writerow([app['full_name'], str(i)])

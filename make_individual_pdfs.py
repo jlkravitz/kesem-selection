@@ -10,7 +10,7 @@ import wufoo_entry_loader
 from wufoo_pdf import WufooPDF
 
 def load_applicant_ids():
-    with open('applicant_ids.csv') as f:
+    with open(os.path.join('AppReading', 'applicant_ids.csv')) as f:
         reader = csv.reader(f)
         return {
             app_id[0]: app_id[1]

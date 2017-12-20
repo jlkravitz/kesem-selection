@@ -10,9 +10,9 @@ def load_applicant_id2name():
 
 def redo_reader_packets():
     id2name = load_applicant_id2name()
-    readers = next(os.walk('Application Reading'))[1]
+    readers = next(os.walk('AppReading'))[1]  # names of reader directories
     for reader in readers:
-        with open('Application Reading/{}/{} Score Sheet.csv'.format(reader, reader)) as f:
+        with open(os.path.join('AppReading', reader, '{}ScoreSheet.csv'.format(reader))) as f:
             csv_reader = csv.reader(f)
             next(csv_reader)
             reader_apps = []

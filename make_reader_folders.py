@@ -8,7 +8,7 @@ import app_reader_folder
 READERS_PER_APPLICANT = 2
 
 def load_conflicts_of_interest():
-    with open('conflicts_of_interest.csv') as f:
+    with open(os.path.join('AppReading', 'conflicts_of_interest.csv')) as f:
         conflicts_reader = csv.reader(f)
         reader_conflicts = dict((r, set()) for r in next(conflicts_reader)[1:])
         for row in conflicts_reader:
@@ -20,7 +20,7 @@ def load_conflicts_of_interest():
     return reader_conflicts
 
 def load_applicants():
-    with open('applicant_ids.csv') as f:
+    with open(os.path.join('AppReading', 'applicant_ids.csv')) as f:
         reader = csv.reader(f)
         return dict((row[0], row[1]) for row in reader)  # name --> id
 
@@ -84,7 +84,7 @@ def make_app_assignments(name2id, conflicts_of_interest):
     return reader2apps, app2readers
 
 def save_app_assignments(reader2apps, app2readers):
-    with open('app_read_assignments.csv', 'w') as f:
+    with open(os.path.join('AppReading', 'app_read_assignments.csv'), 'w') as f:
         writer = csv.writer(f)
         readers = list(reader2apps.keys())
         writer.writerow([''] + readers)
@@ -94,7 +94,7 @@ def save_app_assignments(reader2apps, app2readers):
 
 def load_app_assignments(applicants):
     reader2apps = defaultdict(list)
-    with open('app_read_assignments.csv') as f:
+    with open(os.path.join('AppReading', 'app_read_assignments.csv')) as f:
         csv_reader = csv.reader(f)
         readers = list(next(csv_reader))[1:]
         for row in csv_reader:

@@ -9,6 +9,7 @@ Some general terms and abstractions used in this file...
  """
 
 import csv
+import os
 
 def normalize(name):
     return ' '.join(name.strip().lower().split())
@@ -77,7 +78,7 @@ def load_apps(fields):
         'questions': lambda row: [(q, row[index]) for (q, index) in APP_QUESTIONS]
     }
     key = fields_map['email']
-    return load_wufoo_entries('apps.csv', key, fields_map, fields)
+    return load_wufoo_entries(os.path.join('AppReading', 'apps.csv'), key, fields_map, fields)
 
 def load_references(fields):
     REFERENCE_QUESTIONS = [
@@ -110,5 +111,5 @@ def load_references(fields):
         'questions': lambda row: [(q, row[index]) for (q, index) in REFERENCE_QUESTIONS]
     }
     key = lambda row: (fields_map['reference_full_name'](row), fields_map['applicant_full_name'](row))
-    return load_wufoo_entries('references.csv', key, fields_map, fields)
+    return load_wufoo_entries(os.path.join('AppReading', 'references.csv'), key, fields_map, fields)
 

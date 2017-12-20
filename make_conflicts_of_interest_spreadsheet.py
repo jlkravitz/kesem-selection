@@ -1,15 +1,16 @@
 from __future__ import print_function
 import csv
+import os
 
 def load_applicants():
-    with open('applicant_ids.csv') as f:
+    with open(os.path.join('AppReading', 'applicant_ids.csv')) as f:
         reader = csv.reader(f)
         return [row[0] for row in reader]
 
 def main():
     applicants = load_applicants()
     
-    with open('conflicts_of_interest.csv', 'w') as f:
+    with open(os.path.join('AppReading', 'conflicts_of_interest.csv'), 'w') as f:
         writer = csv.writer(f)
 
         readers = []
