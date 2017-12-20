@@ -92,8 +92,22 @@ def save_app_assignments(reader2apps, app2readers):
             (name, id_) = applicant
             writer.writerow([name] + [('x' if reader in app_readers else '') for reader in readers])
 
+def load_app_assignments(applicants):
+    reader2apps = defaultdict(list)
+    with open('app_read_assignments.csv') as f:
+        csv_reader = csv.reader(f)
+        readers = list(next(csv_reader))[1:]
+        for row in csv_reader:
+            name = row[0]
+            id_ = applicants[name]
+            app_readers = [readers[i] for i, val in enumerate(row[1:]) if val != '']
+            for reader in app_readers:
+                reader2apps[reader].append((name, id_))
+    return reader2apps
+
 def make_reader_folders(reader2apps):
     for (reader, applicants) in reader2apps.items():
+        random.shuffle(applicants)
         folder = app_reader_folder.AppReaderFolder(reader, applicants)
         folder.make_score_sheet()
         folder.make_app_packet()

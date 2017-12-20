@@ -12,7 +12,6 @@ class AppReaderFolder(object):
         if not os.path.exists(self.reader_dir):
             os.makedirs(self.reader_dir)
 
-        random.shuffle(assigned_applicants)
         self.assigned_applicants = assigned_applicants
 
     def make_score_sheet(self):
