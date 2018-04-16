@@ -4,7 +4,6 @@ import os
 from wufoo_pdf import WufooPDF
 
 def make_app_pdfs():
-    apps = wufoo_entry_loader.load_apps(fields=['full_name', 'questions'])
     with open('camper_info.csv', 'r') as csvfile:
         camperreader = csv.reader(csvfile)
         headers = next(camperreader)
