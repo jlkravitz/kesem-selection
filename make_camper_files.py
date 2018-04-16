@@ -11,10 +11,14 @@ def make_app_pdfs():
             camper_name = row[0]
             pdf = WufooPDF()
             pdf.append(zip(headers[1:], row[1:]), camper_name)
-            pdf.save(os.path.join('camper_files/', camper_name) + '.pdf')
+            unit_dir = os.path.join('camper_files/', row[1])
+            if not os.path.isdir(unit_dir):
+                os.mkdir(unit_dir)
+            pdf.save(os.path.join(unit_dir, camper_name) + '.pdf')
 
 def main():
-    # os.mkdir('camper_files')
+    if not os.path.isdir('camper_files'):
+        os.mkdir('camper_files')
     make_app_pdfs()
 
 if __name__ == '__main__':
