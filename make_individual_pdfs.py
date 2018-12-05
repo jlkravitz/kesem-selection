@@ -22,12 +22,19 @@ def make_app_pdfs(applicant_ids, anonymous):
     for i, app in enumerate(apps):
         if i != 0 and i % 10 == 0:
             print('Made {}/{} Application PDFs'.format(i, len(apps)))
+
+        app_name = app['full_name']
+        app_id = applicant_ids[app_name]
+        if anonymous:
+            pdf_title = 'Applicant #{}'.format(app_id)
+            file_name = app_id + '.pdf'
+        else:
+            pdf_title = '{} (#{})'.format(app_name, app_id)
+            file_name = app_name + '.pdf'
+
         wufoo_pdf = WufooPDF()
-        title = 'Applicant #{}'.format(applicant_ids[app['full_name']])
-        if not anonymous:
-            title = '{} (#{})'.format(app['full_name'], applicant_ids[app['full_name']])
-        wufoo_pdf.append(app['questions'], title)
-        wufoo_pdf.save(os.path.join('apps/', title + '.pdf'))
+        wufoo_pdf.append(app['questions'], pdf_title)
+        wufoo_pdf.save(os.path.join('apps/', file_name))
 
 def make_reference_pdfs(applicant_ids, anonymous):
     references = wufoo_entry_loader.load_references(['applicant_full_name', 'questions'])
@@ -39,21 +46,27 @@ def make_reference_pdfs(applicant_ids, anonymous):
         # when looping over apps. Here, there may not exist an application for
         # the reference of the given name.
         try:
-            title = 'Reference for Applicant #{}'.format(applicant_ids[reference['applicant_full_name']])
-            if not anonymous:
-                title = 'Reference for {} (#{})'.format(reference['applicant_full_name'],
-                        applicant_ids[reference['applicant_full_name']])
+            app_name = reference['applicant_full_name']
+            app_id = applicant_ids[app_name]
         except KeyError:
             print(('Letter of reference for "{}" has no corresponding application. Make sure to fix all ' +\
                   'issues listed by `cross_reference.py` before running this script.').format(reference['applicant_full_name']))
             continue
 
+        if anonymous:
+            pdf_title = 'Reference for Applicant #{}'.format(app_id)
+            file_name = app_id + '.pdf'
+        else:
+            pdf_title = 'Reference for {} (#{})'.format(app_name, app_id)
+            file_name = app_name + '.pdf'
+
         wufoo_pdf = WufooPDF()
-        wufoo_pdf.append(reference['questions'], title)
-        wufoo_pdf.save(os.path.join('references/', title + '.pdf'))
+        wufoo_pdf.append(reference['questions'], pdf_title)
+        wufoo_pdf.save(os.path.join('references/', file_name))
 
 def main():
-    anonymous = len(sys.argv) == 1  # easier than checking exact argument...
+    anonymous = raw_input('Would you like application PDFs to be anonymous (Y or N)? ')
+    anonymous = anonymous.strip().lower() == 'y'
     os.mkdir('apps')
     os.mkdir('references')
     applicant_ids = load_applicant_ids()
