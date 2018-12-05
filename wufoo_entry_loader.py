@@ -55,6 +55,14 @@ def build_entry(row, field_map, fields):
 
 def load_apps(fields):
     APP_QUESTIONS = [
+        ('2nd-3rd Grade (~7-8 years old)', 16),
+        ('4th -5th Grade (~9-10 years old)', 17),
+        ('6th Grade (~11 years old)', 18),
+        ('7th Grade (~12 years old)', 19),
+        ('8th Grade (~13 years old)', 20),
+        ('9th Grade (~14 years old)', 21),
+        ('Outdoor Leadership Program (10th/11th Grade ~15-16 years old)', 22),
+        ('Why are you interested in participating in OLP?', 23), 
         ('Describe your relevant experience working with children.', 24),
         ('Describe your experience working at camp.', 25),
         ('Describe your leadership positions.', 26),
