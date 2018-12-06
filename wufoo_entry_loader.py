@@ -73,7 +73,7 @@ def load_apps(fields):
         ('In what ways would you contribute to the diversity of Kesem\'s community?', 31),
         ('Special Sauce', 32),
         ('Additional Info', 33),
-        ('Additional Info Upload (sometimes contains special sauce)', 34)
+        ('Additional Info Upload (sometimes contains special sauce)', 34),
     ]
     fields_map = {
         'first_name': lambda row: normalize(row[1]),
@@ -106,7 +106,7 @@ def load_references(fields):
         ('How would you rank their energy level?', 20),
         ('Elaborate', 21),
         ('Any reservations?', 22),
-        ('Anything else?', 23)
+        ('Anything else?', 23),
     ]
     fields_map = {
         'reference_first_name': lambda row: normalize(row[1]),

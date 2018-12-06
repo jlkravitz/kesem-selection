@@ -51,7 +51,26 @@ I originally wrote this for python3 since it's easier to deal with unicode, but 
 to change to python2 to avoid forcing non-computer-nerds to install python3, which isn't
 installed on computers by default.)
 
+## Before You Start
+
+When you make any updates to the application or reference, you'll need to make
+some changes to the codebase to ensure applications and references are properly
+read in (in other words, you'll probably need to do this :-)). In particular,
+in `wufoo_entry_loader.py`, you'll find two functions `load_apps` and
+`load_references`, which define keys and values for relevant fields in the
+application and reference, respectively. You can edit the `field_map` in each
+function.
+
+Note that the columns are 0-indexed, so `row[n - 1]` accesses the `n`th column
+of `row`, which is an application or reference submitted to Wufoo. For example,
+you would access the first column with `row[0]`. To add fields or edit existing
+ones, you'll need to know which column the field occupies in the exported Wufoo
+CSV file.
+
 ## Instructions
+
+Once you've set up the codebase to work with this year's application and reference,
+you're ready to go.
 
 Run the following commands from your terminal in the `kesem-selection` directory.
 
