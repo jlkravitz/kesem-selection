@@ -1,6 +1,5 @@
 apps/
 references/
-fonts/
 __pycache__/
 *.csv
 .DS_Store
