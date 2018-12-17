@@ -72,8 +72,7 @@ def load_apps(fields):
         ('Why do you want to volunteer your time for Camp Kesem?', 27),
         ('In what ways would you contribute to the diversity of Kesem\'s community?', 28),
         ('Special Sauce', 29),
-        ('Additional Info', 33),
-        ('Additional Info Upload (sometimes contains special sauce)', 30),
+        ('Additional Info', 30),
     ]
     fields_map = {
         'first_name': lambda row: normalize(row[1]),
