@@ -17,7 +17,7 @@ class AppReaderFolder(object):
     def make_score_sheet(self):
         with open(os.path.join(self.reader_dir, self.reader + ' Score Sheet.csv'), 'w') as f:
             writer = csv.writer(f)
-            writer.writerow(['', 'PRE- Special Sauce Score (1-5)', 'POST- Reference Score (1-5)', 'Notes'])
+            writer.writerow(['', 'PRE- Special Sauce Score', 'POST- Reference Score', 'Notes'])
             for (_, id_) in self.assigned_applicants:
                 writer.writerow([id_])
 
